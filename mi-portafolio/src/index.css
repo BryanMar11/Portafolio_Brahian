@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+@keyframes sweepLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes sweepUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-sweep-left {
+  animation: sweepLeft 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-sweep-up {
+  animation: sweepUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
