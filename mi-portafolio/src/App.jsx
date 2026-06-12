@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
 
 function App() {
   const [loading, setLoading] = useState(true);
   const [fadeAway, setFadeAway] = useState(false);
+  const [idioma, setIdioma] = useState('es'); // Declarado correctamente para evitar el undefined
 
   useEffect(() => {
+    // Control de tiempos para la pantalla de carga (Loader)
     const animationTimeout = setTimeout(() => {
       setFadeAway(true);
     }, 3800);
@@ -19,6 +23,7 @@ function App() {
     };
   }, []);
 
+  // 1. Render de la Pantalla de Carga (Loader)
   if (loading) {
     return (
       <div 
@@ -66,11 +71,18 @@ function App() {
     );
   }
 
+  // 2. Render de la Aplicación Principal (Navbar + Hero Limpio)
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#050b14] text-white px-4">
-      <h1 className="text-2xl font-bold text-blue-400">
-        [Contenido Principal del Portafolio]
-      </h1>
+    <div className="min-h-screen bg-[#050b14] text-white relative select-none">
+      {/* Fondo estelar difuminado global */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950/20 via-[#050b14] to-[#050b14] pointer-events-none" />
+      
+      {/* Pasamos los estados correctos a los componentes */}
+      <Navbar idioma={idioma} setIdioma={setIdioma} />
+      
+      <main>
+        <Hero idioma={idioma} />
+      </main>
     </div>
   );
 }

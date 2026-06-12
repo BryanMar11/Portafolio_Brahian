@@ -33,3 +33,22 @@
 .animate-sweep-up {
   animation: sweepUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  from, to { border-color: transparent }
+  50% { border-color: #3b82f6 }
+}
+
+@keyframes cursorBlink {
+  from, to { border-color: transparent; }
+  50% { border-color: #3b82f6; }
+}
+
+.animate-cursor-blink {
+  animation: cursorBlink 0.8s step-end infinite;
+}
