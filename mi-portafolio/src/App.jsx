@@ -5,16 +5,20 @@ import Hero from './components/Hero';
 function App() {
   const [loading, setLoading] = useState(true);
   const [fadeAway, setFadeAway] = useState(false);
-  const [idioma, setIdioma] = useState('es'); // Declarado correctamente para evitar el undefined
+  const [contentFadeIn, setContentFadeIn] = useState(false); // Nuevo estado para la transición del contenido
+  const [idioma, setIdioma] = useState('es');
 
   useEffect(() => {
-    // Control de tiempos para la pantalla de carga (Loader)
+    // 1. Iniciamos el desvanecimiento del Loader un poco antes
     const animationTimeout = setTimeout(() => {
       setFadeAway(true);
     }, 3800);
 
+    // 2. Desmontamos el Loader y activamos la entrada suave del contenido principal
     const removeTimeout = setTimeout(() => {
       setLoading(false);
+      // Pequeño delay de 50ms para asegurar que el DOM se monte antes de aplicar la opacidad 100
+      setTimeout(() => setContentFadeIn(true), 50);
     }, 4300);
 
     return () => {
@@ -27,8 +31,8 @@ function App() {
   if (loading) {
     return (
       <div 
-        className={`flex min-h-screen flex-col items-center justify-center bg-[#050b14] text-white px-4 relative overflow-hidden transition-all duration-500 ease-in-out ${
-          fadeAway ? 'opacity-0 scale-98 pointer-events-none' : 'opacity-100 scale-100'
+        className={`flex min-h-screen flex-col items-center justify-center bg-[#050b14] text-white px-4 relative overflow-hidden transition-all duration-700 ease-in-out ${
+          fadeAway ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
         }`}
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-950/20 rounded-full blur-[120px] pointer-events-none" />
@@ -71,13 +75,16 @@ function App() {
     );
   }
 
-  // 2. Render de la Aplicación Principal (Navbar + Hero Limpio)
+  // 2. Render de la Aplicación Principal con transición de entrada suave (Evita el fondo blanco)
   return (
-    <div className="min-h-screen bg-[#050b14] text-white relative select-none">
+    <div 
+      className={`min-h-screen bg-[#050b14] text-white relative select-none transition-opacity duration-1000 ease-out ${
+        contentFadeIn ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       {/* Fondo estelar difuminado global */}
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950/20 via-[#050b14] to-[#050b14] pointer-events-none" />
       
-      {/* Pasamos los estados correctos a los componentes */}
       <Navbar idioma={idioma} setIdioma={setIdioma} />
       
       <main>
